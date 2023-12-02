@@ -2,6 +2,10 @@
 
 I created this simple MQTT Client to test the protocol. In this project, devices and switches are not linked by logic; instead, they communicate exclusively through the MQTT broker.
 
+## Screenshot
+
+<img src="./public/assets/screen.png" alt="Screenshot of the dashboard" width="650">
+
 ## Getting Started
 
 1. Install the project
