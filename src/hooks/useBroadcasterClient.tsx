@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import broadcasterClient from "../services/BroadcasterClient";
+import useBroadcasterDevices from './useBroadcasterDevices';
 
 /**
  * Custom hook for all sender client related logic
  * @returns senderHook object (senderConnected, senderColor, publish, toggleSender)
  */
-export default function useSenderClient() {  
+export default function useBroadcasterClient() {  
     const [senderConnected, setSenderConnected] = useState(false);
+    const { broadcasterDevices, setBroadcasterDevices } = useBroadcasterDevices();
 
 	const senderColor = senderConnected ? ' bg-green-500' : ' bg-red-500';
 
@@ -14,6 +16,19 @@ export default function useSenderClient() {
 		broadcasterClient.on('connect', () => {
 			setSenderConnected(true);
 		});
+
+		broadcasterClient.on('message', (topic, message) => {
+            setBroadcasterDevices(prevDevices => {
+                const updatedDevices = [...prevDevices];
+                const device = updatedDevices.find(device => device.name === topic);
+                if (device) {
+                    device.message = message.toString();
+                }
+                return updatedDevices;
+            });
+        });
+
+		broadcasterClient.subscribe('cgendron/home/#');
 	}, []);
 
 	const publish = (topic: string, message: string) => {
@@ -34,6 +49,7 @@ export default function useSenderClient() {
         senderConnected,
         senderColor,
         publish,
+        broadcasterDevices,
         toggleSender
     }
 
