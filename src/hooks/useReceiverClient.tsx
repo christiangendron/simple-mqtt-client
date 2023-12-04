@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import receiverClient from "../services/ReceiverClient";
-import useDevices from './useDevices';
+import useReceiverDevices from './useReceiverDevices';
 
 /**
  * Custom hook for all receiver client related logic
@@ -9,8 +9,7 @@ import useDevices from './useDevices';
 export default function useReceiverClient() {  
     const [receiverConnected, setReceiverConnected] = useState(false);
     const receivercolor = receiverConnected ? ' bg-green-500' : ' bg-red-500';
-
-    const { registeredDeviced, setRegisteredDevices } = useDevices();
+    const { receiverDevices, setReceiverDevices } = useReceiverDevices();
 
     useEffect(() => {
 		receiverClient.on('connect', () => {
@@ -18,7 +17,7 @@ export default function useReceiverClient() {
 		});
 
 		receiverClient.on('message', (topic, message) => {
-            setRegisteredDevices(prevDevices => {
+            setReceiverDevices(prevDevices => {
                 const updatedDevices = [...prevDevices];
                 const device = updatedDevices.find(device => device.name === topic);
                 if (device) {
@@ -44,7 +43,7 @@ export default function useReceiverClient() {
     const receiverHook = {
         receiverConnected,
         receivercolor,
-        registeredDeviced,
+        receiverDevices,
         toggleReceiver
     }
 
