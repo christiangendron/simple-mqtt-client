@@ -9,7 +9,7 @@ import useReceiverClient from '@/hooks/useReceiverClient';
  * @returns JSX.Element
  */
 export default function Receiver() {
-    const { receivercolor, registeredDeviced, toggleReceiver } = useReceiverClient();
+    const { receivercolor, toggleReceiver, receiverDevices } = useReceiverClient();
 
     return (
         <>
@@ -17,9 +17,9 @@ export default function Receiver() {
                 Receiver
             </div>
             <div className="flex flex-row w-full gap-2">
-                <Device device={registeredDeviced[0]} />
-                <Device device={registeredDeviced[1]} />
-                <Device device={registeredDeviced[2]} />
+                <Device device={receiverDevices[0]} />
+                <Device device={receiverDevices[1]} />
+                <Device device={receiverDevices[2]} />
             </div>
         </>
     )

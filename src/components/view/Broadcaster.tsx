@@ -2,17 +2,15 @@
 
 import React from 'react'
 import DeviceSwitch from '../shared/DeviceSwitch';
-import useSenderClient from '../../hooks/useSenderClient';
 import Dial from '../shared/Dial';
-import useDevices from '@/hooks/useDevices';
+import useBroadcasterClient from '../../hooks/useBroadcasterClient';
 
 /**
  * Broadcaster component, display the broadcaster switch button and the devices
  * @returns JSX.Element
  */
 export default function Broadcaster() {
-    const { senderColor, publish, toggleSender } = useSenderClient();
-	const { registeredDeviced } = useDevices();
+    const { senderColor, publish, toggleSender, broadcasterDevices } = useBroadcasterClient();
 
 	return (
 		<>
@@ -20,9 +18,9 @@ export default function Broadcaster() {
 				Broadcaster
 			</div>
 			<div className="flex flex-row w-full gap-2">
-				<DeviceSwitch name={registeredDeviced[0].name} handler={publish} initialStatus={false} />
-				<DeviceSwitch name={registeredDeviced[1].name} handler={publish} initialStatus={false} />
-				<Dial name={registeredDeviced[2].name} handler={publish} initialStatus={20} />
+				<DeviceSwitch device={broadcasterDevices[0]} handler={publish}  />
+				<DeviceSwitch device={broadcasterDevices[1]} handler={publish} />
+				<Dial device={broadcasterDevices[2]} handler={publish} />
 			</div>
 		</>
 	);
