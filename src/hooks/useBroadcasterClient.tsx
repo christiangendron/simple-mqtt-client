@@ -21,7 +21,7 @@ export default function useBroadcasterClient() {
             setBroadcasterDevices(prevDevices => {
                 const updatedDevices = [...prevDevices];
                 const device = updatedDevices.find(device => device.name === topic);
-                if (device) {
+                if (device && device.message !== message.toString()) {
                     device.message = message.toString();
                 }
                 return updatedDevices;
